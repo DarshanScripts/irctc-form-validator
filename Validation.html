@@ -1,0 +1,522 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta http-equiv="refresh" content="" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>Make My Trip</title>
+        <link href="css/bootstrap.css" rel="stylesheet" />
+        <script src="jquery.js"></script>
+        <style>
+            body {
+                background-color: lightgrey;
+            }
+            form {
+                background-color: white;
+                border: 1px solid grey;
+                border-radius: 3px;
+                width: 60%;
+            }
+            h1 {
+                color: grey;
+            }
+            input,
+            select {
+                width: 100%;
+            }
+            ::placeholder {
+                font-size: small;
+            }
+            .prefix {
+                position: relative;
+            }
+            .input-prefix {
+                padding-left: 35px;
+            }
+            .countryCode {
+                position: absolute;
+                left: 13px;
+                top: 3px;
+                font-size: medium;
+            }
+            span {
+                font-size: small;
+                font-weight: 700;
+                padding-left: 4px;
+				display: block;
+				padding: 1px;
+            }
+            img {
+                width: 20px;
+                height: 20px;
+            }
+            .checkLine input,
+            .radioLine input {
+                width: auto;
+            }
+            input[type="checkbox"] {
+                padding-right: 5px;
+                padding-left: 5px;
+            }
+            .checkLine label,
+            .radioLine label {
+                padding-left: 5px;
+            }
+        </style>
+        <script>
+            $(document).ready(function () {
+                $("#accountSetupForm,#personalInfoForm,#addressInfoForm").hide();
+                $("#accountSetup").click(function () {
+                    $("#accountSetupForm").toggle();
+                });
+                $("#personalInfo").click(function () {
+                    $("#personalInfoForm").toggle();
+                });
+                $("#addressInfo").click(function () {
+                    $("#addressInfoForm").toggle();
+                });
+
+                $("#unMsg1,#unMsg2,#emailMsg,#passMsg1,#passMsg2,#passMsg3,#passMsg4,#conPassMsg,#secAnsMsg1,#secAnsMsg2,#langMsg").hide();
+                $("#un").focus(function () {
+                    $("#unMsg1,#unMsg2").show();
+                    $("#unV").hide();
+                });
+                $("#un").blur(function () {
+                    $("#unMsg1,#unMsg2").hide();
+                });
+                $("#email").focus(function () {
+                    $("#emailMsg").show();
+                    $("#emailV").hide();
+                });
+                $("#email").blur(function () {
+                    $("#emailMsg").hide();
+                });
+                $("#mobile").focus(function () {
+                    $("#mobileV").hide();
+                });
+                $("#pass").focus(function () {
+                    $("#passMsg1,#passMsg2,#passMsg3,#passMsg4").show();
+                    $("#passV").hide();
+                });
+                $("#pass").blur(function () {
+                    $("#passMsg1,#passMsg2,#passMsg3,#passMsg4").hide();
+                });
+                $("#conPass").focus(function () {
+                    $("#conPassMsg").show();
+                    $("#conPassV").hide();
+                });
+                $("#conPass").blur(function () {
+                    $("#conPassMsg").hide();
+                });
+                $("#secAns").focus(function () {
+                    $("#secAnsMsg1,#secAnsMsg2").show();
+                    $("#secAnsV").hide();
+                });
+                $("#secAns").blur(function () {
+                    $("#secAnsMsg1,#secAnsMsg2").hide();
+                });
+                $("#fn").focus(function () {
+                    $("#fnV").hide();
+                });
+                $("ln").focus(function () {
+                    $("#lnV").hide();
+                });
+                $("#dt").focus(function () {
+                    $("#dtV").hide();
+                });
+                $("#add").focus(function () {
+                    $("#addV").hide();
+                });
+                $("#altMobile").focus(function () {
+                    $("#altMobileV").hide();
+                });
+                $("#pin").focus(function () {
+                    $("#pinV").hide();
+                });
+            });
+
+            function unCheck() {
+                var unVal = document.getElementById("un").value;
+                if (unVal.length < 3 || unVal.length > 35)
+                    document.getElementById("unMsg1").style.color = "red";
+                else
+					document.getElementById("unMsg1").style.color = "green";
+                if (/^(?![0-9_])[A-Za-z0-9_]+(?<![_])$/.test(unVal))
+                    document.getElementById("unMsg2").style.color = "green";
+                else
+					document.getElementById("unMsg2").style.color = "red";
+				if (unVal != "")
+                    document.getElementById("un").style.border = "";
+            }
+
+            function emailCheck() {
+                var emailVal = document.getElementById("email").value;
+                if (/[a-z][a-z0-9]+@(gmail|outlook|hotmail|yahoo|icloud)[.](com|in)/.test(emailVal))
+                    document.getElementById("emailMsg").style.color = "green";
+                else
+					document.getElementById("emailMsg").style.color = "red";
+                if (emailVal != "")
+                    document.getElementById("email").style.border = "";
+            }
+
+            function mobileCheck() {
+                var mobileVal = document.getElementById("mobile").value;
+                if (mobileVal != "")
+                    document.getElementById("mobile").style.border = "";
+            }
+
+            function passCheck() {
+                var passVal = document.getElementById("pass").value;
+                if (passVal.length < 8 || passVal.length > 15)
+                    document.getElementById("passMsg1").style.color = "red";
+                else 
+					document.getElementById("passMsg1").style.color = "green";
+                if (/[a-z]/.test(passVal))
+                    document.getElementById("passMsg2").style.color = "green";
+                else 
+					document.getElementById("passMsg2").style.color = "red";
+                if (/[A-Z]/.test(passVal))
+                    document.getElementById("passMsg3").style.color = "green";
+                else 
+					document.getElementById("passMsg3").style.color = "red";
+                if (/[0-9]/.test(passVal))
+                    document.getElementById("passMsg4").style.color = "green";
+                else 
+					document.getElementById("passMsg4").style.color = "red";
+                if (passVal != "")
+                    document.getElementById("pass").style.border = "";
+            }
+
+            function conPassCheck() {
+                var passVal = document.getElementById("pass").value;
+                var conPassVal = document.getElementById("conPass").value;
+                if (passVal != conPassVal)
+                    document.getElementById("conPassMsg").style.color = "red";
+                else
+                    document.getElementById("conPassMsg").style.color = "green";
+                if (conPassVal != "")
+                    document.getElementById("conPass").style.border = "";
+            }
+
+            function secAnsCheck() {
+                var secAnsVal = document.getElementById("secAns").value;
+                if (secAnsVal.length < 3 || secAnsVal.length > 20)
+                    document.getElementById("secAnsMsg1").style.color = "red";
+                else
+                    document.getElementById("secAnsMsg1").style.color = "green";
+                var secAnsRegex = /^[a-z0-9]+$/;
+                if (secAnsRegex.test(secAnsVal))
+                    document.getElementById("secAnsMsg2").style.color = "green";
+                else 
+					document.getElementById("secAnsMsg2").style.color = "red";
+                if (secAnsVal != "")
+                    document.getElementById("secAns").style.border = "";
+            }
+
+            function fnCheck() {
+                var fnVal = document.getElementById("fn").value;
+                if (fnVal != "")
+                    document.getElementById("fn").style.border = "";
+            }
+
+            function lnCheck() {
+                var lnVal = document.getElementById("ln").value;
+                if (lnVal != "")
+                    document.getElementById("ln").style.border = "";
+            }
+
+            function dtCheck() {
+                var dtVal = document.getElementById("dt").value;
+                if (dtVal != "")
+                    document.getElementById("dt").style.border = "";
+            }
+
+            function langCheck() {
+                var check1 = document.getElementById("lang1");
+                var check2 = document.getElementById("lang2");
+                var check3 = document.getElementById("lang3");
+                var check4 = document.getElementById("lang4");
+                var check5 = document.getElementById("lang5");
+                var text = document.getElementById("langMsg");
+                if ( lang1.checked == true || lang2.checked == true || lang3.checked == true || lang4.checked == true || lang5.checked == true )
+                    text.style.display = "block";
+                else 
+					text.style.display = "none";
+                if ($('input[type="checkbox"]:checked').length < 2)
+                    document.getElementById("langMsg").style.color = "red";
+                else 
+					document.getElementById("langMsg").style.color = "green";
+            }
+
+            function addCheck() {
+                var addVal = document.getElementById("add").value;
+                if (addVal != "")
+                    document.getElementById("add").style.border = "";
+            }
+
+            function altMobileCheck() {
+                var altMobileVal = document.getElementById("altMobile").value;
+                if (altMobileVal != "")
+                    document.getElementById("altMobile").style.border = "";
+            }
+
+            function pinCheck() {
+                var pinVal = document.getElementById("pin").value;
+                if (pinVal != "")
+                    document.getElementById("pin").style.border = "";
+            }
+
+            function emptyCheck() {
+                var unVal = document.getElementById("un").value;
+                var emailVal = document.getElementById("email").value;
+                var mobileVal = document.getElementById("mobile").value;
+                var passVal = document.getElementById("pass").value;
+                var conPassVal = document.getElementById("conPass").value;
+                var secAnsVal = document.getElementById("secAns").value;
+                var fnVal = document.getElementById("fn").value;
+                var lnVal = document.getElementById("ln").value;
+                var dtVal = document.getElementById("dt").value;
+                var addVal = document.getElementById("add").value;
+                var altMobileVal = document.getElementById("altMobile").value;
+                var pinVal = document.getElementById("pin").value;
+                if (unVal == "") {
+                    document.getElementById("unV").innerHTML = "Enter a valid username";
+                    document.getElementById("un").style.border = "2px solid red";
+                }
+                if (emailVal == "") {
+                    document.getElementById("emailV").innerHTML = "Enter a valid email";
+                    document.getElementById("email").style.border = "2px solid red";
+                }
+                if (mobileVal == "") {
+                    document.getElementById("mobileV").innerHTML = "Enter a valid mobile number";
+                    document.getElementById("mobile").style.border = "2px solid red";
+                }
+                if (passVal == "") {
+                    document.getElementById("passV").innerHTML = "Enter a valid password";
+                    document.getElementById("pass").style.border = "2px solid red";
+                }
+                if (conPassVal == "") {
+                    document.getElementById("conPassV").innerHTML = "Enter a valid password";
+                    document.getElementById("conPass").style.border = "2px solid red";
+                }
+                if (secAnsVal == "") {
+                    document.getElementById("secAnsV").innerHTML = "Enter a valid security answer";
+                    document.getElementById("secAns").style.border = "2px solid red";
+                }
+                if (fnVal == "") {
+                    document.getElementById("fnV").innerHTML = "Enter a valid first name";
+                    document.getElementById("fn").style.border = "2px solid red";
+                }
+                if (lnVal == "") {
+                    document.getElementById("lnV").innerHTML = "Enter a valid last name";
+                    document.getElementById("ln").style.border = "2px solid red";
+                }
+                if (dtVal == "") {
+                    document.getElementById("dtV").innerHTML = "Enter a valid date of birth";
+                    document.getElementById("dt").style.border = "2px solid red";
+                }
+                if (addVal == "") {
+                    document.getElementById("addV").innerHTML = "Enter a valid address";
+                    document.getElementById("add").style.border = "2px solid red";
+                }
+                if (altMobileVal == "") {
+                    document.getElementById("altMobileV").innerHTML = "Enter a valid mobile number";
+                    document.getElementById("altMobile").style.border = "2px solid red";
+                }
+                if (pinVal == "") {
+                    document.getElementById("pinV").innerHTML = "Enter a valid pincode";
+                    document.getElementById("pin").style.border = "2px solid red";
+                }
+            }
+        </script>
+    </head>
+    <body>
+        <h1>Create IRCTC Account</h1>
+        <h2 id="accountSetup">Account Setup<img src="dropdownIcon.png" /></h2>
+        <div id="accountSetupForm">
+            <form>
+                <div class="row pt-3 px-4">
+                    <div class="col-6"><label>Create UserName</label></div>
+                    <div class="col-6"><label>Enter your Email Address</label></div>
+                </div>
+                <div class="row pt-1 px-4">
+                    <div class="col-6">
+                        <input type="text" placeholder="Type a username" id="un" onkeyup="unCheck()" />
+                        <span id="unMsg1">3-35 characters</span>
+                        <span id="unMsg2">Only alphabets, numbers and underscore allowed</span>
+                        <span id="unV"></span>
+                    </div>
+                    <div class="col-6">
+                        <input type="text" placeholder="OTP will be sent to this email" id="email" onkeyup="emailCheck()" />
+                        <span id="emailMsg">Enter a valid email</span>
+                        <span id="emailV"></span>
+                    </div>
+                </div>
+
+                <div class="row pt-3 px-4">
+                    <div class="col-6"><label>Enter your Mobile Number</label></div>
+                </div>
+                <div class="row pt-1 px-4">
+                    <div class="col-6 prefix">
+                        <input type="text" placeholder=" OTP will be sent to this mobile number" class="input-prefix" id="mobile" onkeyup="mobileCheck()" />
+                        <span class="countryCode">+91</span>
+                        <span id="mobileV"></span>
+                    </div>
+                </div>
+
+                <div class="row pt-3 px-4">
+                    <div class="col-6"><label>Enter your Password</label></div>
+                    <div class="col-6"><label>Enter your Password Again</label></div>
+                </div>
+                <div class="row pt-1 px-4">
+                    <div class="col-6">
+                        <input type="password" placeholder="Type your password for your IRCTC account" id="pass" onkeyup="passCheck()" />
+                        <span id="passMsg1">8-15 case sensitive characters</span>
+                        <span id="passMsg2">Atleast one small alphabet</span>
+                        <span id="passMsg3">Atleast one capital alphabet</span>
+                        <span id="passMsg4">Atleast one number</span>
+                        <span id="passV"></span>
+                    </div>
+                    <div class="col-6">
+                        <input type="password" placeholder="Type your password again for confirmation" id="conPass" onkeyup="conPassCheck()" />
+                        <span id="conPassMsg">Matched</span>
+                        <span id="conPassV"></span>
+                    </div>
+                </div>
+
+                <div class="row pt-3 px-4">
+                    <div class="col-6"><label>Select your Security Question</label></div>
+                    <div class="col-6"><label>Enter a Security Answer</label></div>
+                </div>
+                <div class="row pt-1 pb-3 px-4">
+                    <div class="col-6">
+                        <select>
+                            <option selected>What is your pet name?</option>
+                            <option>What was the name of your first school?</option>
+                            <option>Who was your Childhood hero?</option>
+                            <option>What is your favourite past-time?</option>
+                            <option>What is your all time favourite sports team?</option>
+                            <option>What is your fathers middle name?</option>
+                            <option>What make was your first car or bike?</option>
+                            <option>Where did you first meet your spouse?</option>
+                        </select>
+                    </div>
+                    <div class="col-6">
+                        <input type="text" placeholder="Type an answer for your security question" id="secAns" onkeyup="secAnsCheck()" />
+                        <span id="secAnsMsg1">3-20 characters</span>
+                        <span id="secAnsMsg2">Only lowercase letters and numbers</span>
+                        <span id="secAnsV"></span>
+                    </div>
+                </div>
+            </form>
+        </div>
+        <br />
+        <h2 id="personalInfo">Personal Info<img src="dropdownIcon.png" /></h2>
+        <div id="personalInfoForm">
+            <form>
+                <div class="row pt-3 px-4">
+                    <div class="col-6"><label>Enter your first name</label></div>
+                    <div class="col-6"><label>Enter your last name</label></div>
+                </div>
+                <div class="row pt-1 px-4">
+                    <div class="col-6">
+                        <input type="text" placeholder="Enter your first Name" id="fn" onkeyup="fnCheck()"/>
+                        <span id="fnV"></span>
+                    </div>
+                    <div class="col-6">
+                        <input type="text" placeholder="Enter your last Name" id="ln" onkeyup="lnCheck()"/>
+                        <span id="lnV"></span>
+                    </div>
+                </div>
+
+                <div class="row pt-3 px-4">
+                    <div class="col-6"><label>Select your date of birth</label></div>
+                    <div class="col-6"><label>Select your occuption</label></div>
+                </div>
+                <div class="row pt-1 px-4">
+                    <div class="col-6">
+                        <input type="date" placeholder="Open calendar and select date" id="dt" onchange="dtCheck()"/>
+                        <span id="dtV"></span>
+                    </div>
+                    <div class="col-6">
+                        <select>
+                            <option selected>Government</option>
+                            <option>Public</option>
+                            <option>Private</option>
+                            <option>Professional</option>
+                            <option>SelfEmployed</option>
+                            <option>Student</option>
+                            <option>Others</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="row pt-3 px-4">
+                    <div class="col-6"><label>Select your gender</label></div>
+                    <div class="col-6"><label>Select your marital status</label></div>
+                </div>
+                <div class="row pt-1 px-4 radioLine">
+                    <div class="col-3"><input type="radio" name="gender" checked/><label>Male</label></div>
+                    <div class="col-3"><input type="radio" name="gender"/><label>Female</label></div>
+                    <div class="col-3"><input type="radio" name="maritalStatus" checked/><label>Married</label></div>
+                    <div class="col-3"><input type="radio" name="maritalStatus"/><label>Unmarried</label></div>
+                </div>
+
+                <div class="row pt-3 px-4">
+                    <div class="col-12"><label>Select your preferred language</label></div>
+                </div>
+
+                <div class="row pt-1 pb-3 px-4 checkLine">
+                    <div class="col-2"><input type="checkbox" onclick="langCheck()" id="lang1"/><label>English</label></div>
+                    <div class="col-2"> <input type="checkbox" onclick="langCheck()" id="lang2" /><label>Hindi</label></div>
+                    <div class="col-2"><input type="checkbox" onclick="langCheck()" id="lang3"/><label>Gujarati</label></div>
+                    <div class="col-2"><input type="checkbox" onclick="langCheck()" id="lang4"/><label>Tamil</label></div>
+                    <div class="col-2"><input type="checkbox" onclick="langCheck()" id="lang5"/><label>Telugu</label></div>
+                    <span id="langMsg" style="display: none">Select atleast two languages</span>
+                </div>
+            </form>
+        </div>
+        <br />
+        <h2 id="addressInfo">Address Info<img src="dropdownIcon.png" /></h2>
+        <div id="addressInfoForm">
+            <form>
+                <div class="row pt-3 px-4">
+                    <div class="col-12"><label>Enter your residential address</label></div>
+                </div>
+                <div class="row pt-1 px-4">
+                    <div class="col-12">
+                        <input type="text" placeholder="Enter your residential address" id="add" onkeyup="addCheck()"/>
+                        <span id="addV"></span>
+                    </div>
+                </div>
+
+                <div class="row pt-3 px-4">
+                    <div class="col-6"><label>Alternate contact number</label></div>
+                    <div class="col-6"><label>Select your country of Residence</label></div>
+                </div>
+                <div class="row pt-1 px-4">
+                    <div class="col-6 prefix">
+                        <input type="text" placeholder=" Mobile Number" class="input-prefix" id="altMobile" onkeyup="altMobileCheck()"/>
+                        <span class="countryCode">+91</span>
+                        <span id="altMobileV"></span>
+                    </div>
+                    <div class="col-6">
+                        <select><option selected>India</option></select>
+                        <p style="font-size: 11px">Foreign nationals can register through IRCTC website only</p>
+                    </div>
+                </div>
+
+                <div class="row pt-3 px-4">
+                    <div class="col-12"><label>Enter your Pincode</label></div>
+                </div>
+                <div class="row pt-1 pb-3 px-4">
+                    <div class="col-12">
+                        <input type="text" placeholder="Enter your Pincode" id="pin" onkeyup="pinCheck()"/>
+                        <span id="pinV"></span>
+                    </div>
+                </div>
+            </form>
+            <button class="btn btn-primary my-2" style="width: 60%" onclick="emptyCheck()">CREATE ACCOUNT</button>
+        </div>
+    </body>
+</html>
